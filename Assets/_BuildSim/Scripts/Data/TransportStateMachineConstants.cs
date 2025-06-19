@@ -6,5 +6,8 @@
         public const string LoadedTrigger = "Loaded";
         public const string TargetFound = "TargetFound";
         public const string DestinationReached = "DestinationReached";
+        
+        public const string EnteredQueue = "EnteredQueue";
+        public const string StartUnloading = "StartUnloading";
     }
 }

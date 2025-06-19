@@ -7,6 +7,9 @@ using Zenject;
 
 namespace _BuildSim.Scripts.Logic.Transport
 {
+    /// <summary>
+    /// To see states visualization check <see cref="TransportStateMachine.puml"/>
+    /// </summary>
     public class TransportStateMachine : StateMachine<TransportState>, ITickable, IInitializable,
         IStateMachineTrigger<TransportState>
     {
@@ -29,6 +32,7 @@ namespace _BuildSim.Scripts.Logic.Transport
             AddState(TransportState.Idle, _instantiator.Instantiate<IdleState>());
             AddState(TransportState.MovingToUnloadSpot, _instantiator.Instantiate<MovingToPositionState>());
             AddState(TransportState.Unloading, _instantiator.Instantiate<UnloadingState>());
+            AddState(TransportState.WaitingInQueue, _instantiator.Instantiate<WaitingInQueueState>());
             AddState(TransportState.LeavingMap, _instantiator.Instantiate<LeavingMapState>());
             
             AddTriggerTransition(TransportStateMachineConstants.TargetFound,
@@ -37,9 +41,15 @@ namespace _BuildSim.Scripts.Logic.Transport
             AddTriggerTransition(TransportStateMachineConstants.DestinationReached,
                 new Transition<TransportState>(TransportState.MovingToUnloadSpot, TransportState.Unloading));
             
+            AddTriggerTransition(TransportStateMachineConstants.EnteredQueue,
+                new Transition<TransportState>(TransportState.MovingToUnloadSpot, TransportState.WaitingInQueue));
+
+            AddTriggerTransition(TransportStateMachineConstants.StartUnloading,
+                new Transition<TransportState>(TransportState.WaitingInQueue, TransportState.Unloading));
+            
             AddTriggerTransition(TransportStateMachineConstants.UnloadedTrigger,
                 new Transition<TransportState>(TransportState.Unloading, TransportState.LeavingMap));
-
+            
             base.Init();
         }
 

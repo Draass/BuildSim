@@ -4,7 +4,8 @@ namespace _BuildSim.Scripts.Logic
 {
     public class ResourceContainer : IResourceContainer
     {
-        public int ResourceAmount { get; }
+        public int ResourceAmount { get; private set; }
+        
         public void AddResource(string resourceId, int amount)
         {
             

@@ -2,21 +2,25 @@
 using _BuildSim.Scripts.Data.States;
 using _BuildSim.Scripts.Logic.Interfaces;
 using _BuildSim.Scripts.Logic.Interfaces.Common.StateMachine;
+using UnityEngine;
 using UnityHFSM;
 
 namespace _BuildSim.Scripts.Logic.Transport.States
 {
     public class MovingToPositionState : State<TransportState>
     {
+        private readonly IUnloadSpot _unloadSpot;
         private readonly IUnloadSpotProvider _unloadSpotProvider;
         private readonly IMovement _movement;
         private readonly IStateMachineTrigger<TransportState> _stateMachineTrigger;
 
         public MovingToPositionState(
+            IUnloadSpot unloadSpot,
             IUnloadSpotProvider unloadSpotProvider,
             IMovement movement,
             IStateMachineTrigger<TransportState> stateMachineTrigger)
         {
+            _unloadSpot = unloadSpot;
             _unloadSpotProvider = unloadSpotProvider;
             _movement = movement;
             _stateMachineTrigger = stateMachineTrigger;
@@ -27,7 +31,7 @@ namespace _BuildSim.Scripts.Logic.Transport.States
             _movement.CanMove = true;
 
             _movement.OnDestinationReached += MovementOnOnDestinationReached;
-            
+
             _movement.MoveTo(_unloadSpotProvider.Position);
         }
 
@@ -40,8 +44,17 @@ namespace _BuildSim.Scripts.Logic.Transport.States
         {
             _movement.OnDestinationReached -= MovementOnOnDestinationReached;
 
-            _stateMachineTrigger.Trigger(TransportStateMachineConstants.DestinationReached);
-            // Invoke transition to another state
+            // TODO если не занят и мы не доехали, надо доехать
+            if (_unloadSpot.IsOccupied)
+            {
+                _stateMachineTrigger.Trigger(TransportStateMachineConstants.EnteredQueue);
+            }
+            else
+            {
+                
+                Debug.Log("Slot is not occupied, reached destination");
+                _stateMachineTrigger.Trigger(TransportStateMachineConstants.DestinationReached);
+            }
         }
     }
 }

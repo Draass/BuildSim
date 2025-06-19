@@ -1,4 +1,5 @@
-﻿using Sirenix.OdinInspector;
+﻿using _BuildSim.Scripts.Logic.Interfaces;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
@@ -14,6 +15,8 @@ namespace _BuildSim.Scripts.Logic
         
         public override void InstallBindings()
         {
+            Container.BindInterfacesTo<UnloadSpot>().AsSingle();
+            
             Container.BindInterfacesTo<UnloadSpotProvider>().FromInstance(_unloadSpotProvider).AsSingle();
             Container.BindInterfacesTo<EndOfMapPositionProvider>().FromInstance(_endOfMapPositionProvider).AsSingle();
             

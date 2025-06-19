@@ -5,6 +5,7 @@
         None,
         Idle,
         MovingToUnloadSpot,
+        WaitingInQueue,
         Unloading,
         LeavingMap
     }
