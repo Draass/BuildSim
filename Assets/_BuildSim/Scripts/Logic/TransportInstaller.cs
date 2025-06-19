@@ -1,4 +1,5 @@
-﻿using _BuildSim.Scripts.Data.States;
+﻿using _BuildSim.Scripts.Logic.Transport;
+using _BuildSim.Scripts.Logic.Transport.States;
 using UnityEngine;
 using Zenject;
 
@@ -16,6 +17,8 @@ namespace _BuildSim.Scripts.Logic
             Container.BindInterfacesTo<TransportMovement>().AsSingle();
             
             Container.BindInterfacesTo<MovingToPositionState>().AsSingle();
+
+            Container.BindInterfacesTo<TransportStateMachine>().AsSingle();
         }
     }
 }

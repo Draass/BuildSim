@@ -1,0 +1,40 @@
+﻿using System;
+using _BuildSim.Scripts.Data;
+using _BuildSim.Scripts.Data.States;
+using _BuildSim.Scripts.Logic.Interfaces;
+using _BuildSim.Scripts.Logic.Interfaces.Common.StateMachine;
+using Cysharp.Threading.Tasks;
+using UnityHFSM;
+
+namespace _BuildSim.Scripts.Logic.Transport.States
+{
+    public class UnloadingState : State<TransportState>
+    {
+        private readonly IResourceContainer _resourceContainer;
+        private readonly IStateMachineTrigger<TransportState> _stateMachineTrigger;
+
+        private readonly float _unloadTime = 2f;
+        
+        public UnloadingState(
+            IResourceContainer resourceContainer,
+            IStateMachineTrigger<TransportState> stateMachineTrigger)
+        {
+            _resourceContainer = resourceContainer;
+            _stateMachineTrigger = stateMachineTrigger;
+        }
+
+        public override void OnEnter()
+        {
+            UnloadAsync().Forget();
+        }
+
+        private async UniTaskVoid UnloadAsync()
+        {
+            await UniTask.Delay(TimeSpan.FromSeconds(_unloadTime));
+            
+            _resourceContainer.AddResource(Constants.Brick, 1);
+
+            _stateMachineTrigger.Trigger(TransportStateMachineConstants.UnloadedTrigger);
+        }
+    }
+}

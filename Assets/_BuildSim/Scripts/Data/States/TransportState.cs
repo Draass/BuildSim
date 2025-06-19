@@ -2,6 +2,7 @@
 {
     public enum TransportState
     {
+        None,
         Idle,
         MovingToUnloadSpot,
         Unloading,

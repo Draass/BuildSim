@@ -1,0 +1,51 @@
+﻿using _BuildSim.Scripts.Data;
+using _BuildSim.Scripts.Data.States;
+using _BuildSim.Scripts.Logic.Interfaces.Common.StateMachine;
+using _BuildSim.Scripts.Logic.Transport.States;
+using UnityHFSM;
+using Zenject;
+
+namespace _BuildSim.Scripts.Logic.Transport
+{
+    public class TransportStateMachine : StateMachine<TransportState>, ITickable, IInitializable,
+        IStateMachineTrigger<TransportState>
+    {
+        private readonly IInstantiator _instantiator;
+
+        public TransportStateMachine(IInstantiator instantiator)
+        {
+            _instantiator = instantiator;
+        }
+
+        public void Initialize()
+        {
+            Init();
+        }
+
+        public override void Init()
+        {
+            SetStartState(TransportState.Idle);
+
+            AddState(TransportState.Idle, _instantiator.Instantiate<IdleState>());
+            AddState(TransportState.MovingToUnloadSpot, _instantiator.Instantiate<MovingToPositionState>());
+            AddState(TransportState.Unloading, _instantiator.Instantiate<UnloadingState>());
+            AddState(TransportState.LeavingMap, _instantiator.Instantiate<LeavingMapState>());
+            
+            AddTriggerTransition(TransportStateMachineConstants.TargetFound,
+                new Transition<TransportState>(TransportState.Idle, TransportState.MovingToUnloadSpot));
+            
+            AddTriggerTransition(TransportStateMachineConstants.DestinationReached,
+                new Transition<TransportState>(TransportState.MovingToUnloadSpot, TransportState.Unloading));
+            
+            AddTriggerTransition(TransportStateMachineConstants.UnloadedTrigger,
+                new Transition<TransportState>(TransportState.Unloading, TransportState.LeavingMap));
+
+            base.Init();
+        }
+
+        public void Tick()
+        {
+            OnLogic();
+        }
+    }
+}
