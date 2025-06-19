@@ -1,0 +1,15 @@
+﻿@startuml
+[*] --> Idle : Start
+
+Idle --> MovingToPosition : StartMoving
+
+MovingToPosition --> Unloading : ArrivedAtSpot / spot свободен
+MovingToPosition --> WaitingInQueue : ArrivedAtSpot / spot занят
+
+WaitingInQueue --> Unloading : Начало разгрузки
+
+Unloading --> LeavingMap : Разгрузка завершена
+
+LeavingMap --> Idle : Завершено
+
+@enduml
