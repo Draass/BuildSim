@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using _BuildSim.Scripts.Logic.Interfaces;
 using UnityEngine;
 
@@ -20,17 +19,13 @@ namespace _BuildSim.Scripts.Logic
 
         public UnloadSpot()
         {
-            ResourceId = GetHashCode().ToString();
         }
 
-        public bool Occupy(bool state)
+        public void Occupy(bool state)
         {
-            Debug.Log($"Slot {ResourceId} is occupied: {state}");
             IsOccupied = state;
             
             OnOccupied?.Invoke(IsOccupied);
-            
-            return IsOccupied;
         }
 
         public void EnqueueTransport(ITransportQueueController transport)
@@ -48,8 +43,6 @@ namespace _BuildSim.Scripts.Logic
             {
                 _current = _queue.Dequeue();
                 IsOccupied = true;
-                
-                // Assume that transport is at position
                 
                 _current.StartUnloading();
                 UpdateQueueIndices();

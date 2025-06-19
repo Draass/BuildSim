@@ -22,7 +22,7 @@ namespace _BuildSim.Scripts.Logic.Transport.States
             _trigger = trigger;
             _transportQueueController = transportQueueController;
         }
-
+        
         public override void OnEnter()
         {
             base.OnEnter();
@@ -31,6 +31,13 @@ namespace _BuildSim.Scripts.Logic.Transport.States
             
             _transportQueueController.OnQueueIndexChanged += TransportQueueControllerOnOnQueueIndexChanged;
         }
+        
+        public override void OnExit()
+        {
+            base.OnExit();
+            
+            _transportQueueController.OnQueueIndexChanged -= TransportQueueControllerOnOnQueueIndexChanged;
+        }
 
         private void TransportQueueControllerOnOnQueueIndexChanged(int obj)
         {
@@ -38,13 +45,6 @@ namespace _BuildSim.Scripts.Logic.Transport.States
             {
                 _trigger.Trigger(TransportStateMachineConstants.ContinueMovement);
             }
-        }
-
-        public override void OnExit()
-        {
-            base.OnExit();
-            
-            _transportQueueController.OnQueueIndexChanged -= TransportQueueControllerOnOnQueueIndexChanged;
         }
     }
 }

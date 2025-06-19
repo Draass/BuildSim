@@ -2,11 +2,10 @@
 {
     public enum TransportState
     {
-        None,
-        Idle,
-        MovingToUnloadSpot,
-        WaitingInQueue,
-        Unloading,
-        LeavingMap
+        Idle = 0,
+        MovingToUnloadSpot = 1,
+        WaitingInQueue = 2,
+        Unloading = 3,
+        LeavingMap = 4
     }
 }

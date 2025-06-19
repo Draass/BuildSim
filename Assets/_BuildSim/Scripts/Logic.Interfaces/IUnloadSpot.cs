@@ -7,10 +7,13 @@ namespace _BuildSim.Scripts.Logic.Interfaces
         event Action<bool> OnOccupied; 
         
         string ResourceId { get; }
+        
         bool IsOccupied { get; }
-        bool Occupy(bool state);
+        
+        void Occupy(bool state);
 
         void EnqueueTransport(ITransportQueueController transport);
+        
         void OnTransportUnloaded();
     }
 }
