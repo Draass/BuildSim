@@ -2,63 +2,49 @@
 using _BuildSim.Scripts.Data.States;
 using _BuildSim.Scripts.Logic.Interfaces;
 using _BuildSim.Scripts.Logic.Interfaces.Common.StateMachine;
-using UnityEngine;
 using UnityHFSM;
 
 namespace _BuildSim.Scripts.Logic.Transport.States
 {
-    public class WaitingInQueueState : State<TransportState>, ITransportInQueue
+    public class WaitingInQueueState : State<TransportState>
     {
-        private readonly IUnloadSpotProvider _provider;
         private readonly IUnloadSpot _unloadSpot;
-        private readonly IMovement _movement;
         private readonly IStateMachineTrigger<TransportState> _trigger;
-        private int _queueIndex = int.MaxValue;
-
-        private const float QueueSpacing = 2.5f;
-
+        
+        private readonly ITransportQueueController _transportQueueController;
+        
         public WaitingInQueueState(
             IUnloadSpot unloadSpot,
-            IUnloadSpotProvider provider,
-            IMovement movement,
-            IStateMachineTrigger<TransportState> trigger)
+            IStateMachineTrigger<TransportState> trigger,
+            ITransportQueueController transportQueueController)
         {
             _unloadSpot = unloadSpot;
-            _provider = provider;
-            _movement = movement;
             _trigger = trigger;
+            _transportQueueController = transportQueueController;
         }
 
         public override void OnEnter()
         {
             base.OnEnter();
             
-            _unloadSpot.EnqueueTransport(this);
+            _unloadSpot.EnqueueTransport(_transportQueueController);
+            
+            _transportQueueController.OnQueueIndexChanged += TransportQueueControllerOnOnQueueIndexChanged;
         }
 
-        public void StartUnloading()
+        private void TransportQueueControllerOnOnQueueIndexChanged(int obj)
         {
-            _trigger.Trigger(TransportStateMachineConstants.StartUnloading);
-        }
-
-        public void SetQueueIndex(int index)
-        {
-            _queueIndex = index;
-            MoveToQueueSlot();
-        }
-
-        private void MoveToQueueSlot()
-        {
-            if (_queueIndex < 0)
+            if (obj == 0)
             {
-                return;
+                _trigger.Trigger(TransportStateMachineConstants.ContinueMovement);
             }
+        }
 
-            // TODO получать позицию в очереди для движения из unload spot, вынести вычисления туда
-            Vector3 target = _provider.Position - Vector3.back * QueueSpacing * (_queueIndex + 1);
-
-            _movement.CanMove = true;
-            _movement.MoveTo(target);
+        public override void OnExit()
+        {
+            base.OnExit();
+            
+            _transportQueueController.OnQueueIndexChanged -= TransportQueueControllerOnOnQueueIndexChanged;
         }
     }
 }

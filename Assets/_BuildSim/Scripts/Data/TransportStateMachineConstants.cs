@@ -9,5 +9,6 @@
         
         public const string EnteredQueue = "EnteredQueue";
         public const string StartUnloading = "StartUnloading";
+        public const string ContinueMovement = "ContinueMovement";
     }
 }

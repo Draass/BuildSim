@@ -50,6 +50,9 @@ namespace _BuildSim.Scripts.Logic.Transport
             AddTriggerTransition(TransportStateMachineConstants.UnloadedTrigger,
                 new Transition<TransportState>(TransportState.Unloading, TransportState.LeavingMap));
             
+            AddTriggerTransition(TransportStateMachineConstants.ContinueMovement,
+                new Transition<TransportState>(TransportState.WaitingInQueue, TransportState.MovingToUnloadSpot));
+            
             base.Init();
         }
 

@@ -31,8 +31,19 @@ namespace _BuildSim.Scripts.Logic.Transport.States
             _movement.CanMove = true;
 
             _movement.OnDestinationReached += MovementOnOnDestinationReached;
+            _unloadSpot.OnOccupied += UnloadSpotOnOnOccupied;
 
             _movement.MoveTo(_unloadSpotProvider.Position);
+        }
+
+        private void UnloadSpotOnOnOccupied(bool isOccupied)
+        {
+            _unloadSpot.OnOccupied -= UnloadSpotOnOnOccupied;
+            
+            if (isOccupied)
+            {
+                _stateMachineTrigger.Trigger(TransportStateMachineConstants.EnteredQueue);
+            }
         }
 
         public override void OnExit()

@@ -1,5 +1,4 @@
-﻿using _BuildSim.Scripts.Logic.Interfaces;
-using Sirenix.OdinInspector;
+﻿using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 

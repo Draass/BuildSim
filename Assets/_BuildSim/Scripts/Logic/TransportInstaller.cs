@@ -1,5 +1,4 @@
-﻿using _BuildSim.Scripts.Logic.Interfaces;
-using _BuildSim.Scripts.Logic.Transport;
+﻿using _BuildSim.Scripts.Logic.Transport;
 using _BuildSim.Scripts.Logic.Transport.States;
 using UnityEngine;
 using Zenject;
@@ -15,11 +14,12 @@ namespace _BuildSim.Scripts.Logic
         {
             Container.BindInterfacesTo<PathfinderProvider>().FromInstance(_pathfinderProvider).AsSingle();
 
+            Container.BindInterfacesTo<TransportQueueController>().AsSingle();
             Container.BindInterfacesTo<TransportMovement>().AsSingle();
             
             Container.BindInterfacesTo<MovingToPositionState>().AsSingle();
 
-            Container.BindInterfacesTo<TransportStateMachine>().AsSingle();
+            Container.BindInterfacesAndSelfTo<TransportStateMachine>().AsSingle();
         }
     }
 }
