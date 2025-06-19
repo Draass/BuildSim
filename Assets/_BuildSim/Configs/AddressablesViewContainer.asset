@@ -113,25 +113,7 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  _viewsToAdd:
-  - rid: 6399141602482192634
-  - rid: 6399141602482192635
+  _viewsToAdd: []
   references:
     version: 2
-    RefIds:
-    - rid: 6399141602482192634
-      type: {class: AssetReference, ns: UnityEngine.AddressableAssets, asm: Unity.Addressables}
-      data:
-        m_AssetGUID: 45efc16fad5d3304493d5239bc777cb5
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 1
-    - rid: 6399141602482192635
-      type: {class: AssetReference, ns: UnityEngine.AddressableAssets, asm: Unity.Addressables}
-      data:
-        m_AssetGUID: 6d01ee48df733f349b6de022d92db92c
-        m_SubObjectName: 
-        m_SubObjectType: 
-        m_SubObjectGUID: 
-        m_EditorAssetChanged: 1
+    RefIds: []

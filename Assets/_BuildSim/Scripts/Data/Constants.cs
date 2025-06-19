@@ -1,6 +1,4 @@
-﻿using UnityEngine.AddressableAssets;
-
-namespace _BuildSim.Scripts.Data
+﻿namespace _BuildSim.Scripts.Data
 {
     public static class Constants
     {
