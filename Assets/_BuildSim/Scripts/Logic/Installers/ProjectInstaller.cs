@@ -1,6 +1,7 @@
-﻿using Zenject;
+﻿using _BuildSim.Scripts.Logic.Common;
+using Zenject;
 
-namespace _BuildSim.Scripts.Logic
+namespace _BuildSim.Scripts.Logic.Installers
 {
     public class ProjectInstaller : MonoInstaller
     {

@@ -2,6 +2,8 @@
 using _BuildSim.Scripts.Data.States;
 using _BuildSim.Scripts.Logic.Interfaces;
 using _BuildSim.Scripts.Logic.Interfaces.Common.StateMachine;
+using _BuildSim.Scripts.Logic.Interfaces.Transport;
+using _BuildSim.Scripts.Logic.Interfaces.UnloadSpot;
 using UnityHFSM;
 
 namespace _BuildSim.Scripts.Logic.Transport.States
@@ -10,26 +12,28 @@ namespace _BuildSim.Scripts.Logic.Transport.States
     {
         private readonly IUnloadSpot _unloadSpot;
         private readonly IStateMachineTrigger<TransportState> _trigger;
-        
         private readonly ITransportQueueController _transportQueueController;
+        private readonly ITransportQueueService _transportQueue;
         
         public WaitingInQueueState(
             IUnloadSpot unloadSpot,
             IStateMachineTrigger<TransportState> trigger,
-            ITransportQueueController transportQueueController)
+            ITransportQueueController transportQueueController,
+            ITransportQueueService transportQueueService)
         {
             _unloadSpot = unloadSpot;
             _trigger = trigger;
             _transportQueueController = transportQueueController;
+            _transportQueue = transportQueueService;
         }
         
         public override void OnEnter()
         {
             base.OnEnter();
-            
-            _unloadSpot.EnqueueTransport(_transportQueueController);
-            
+         
             _transportQueueController.OnQueueIndexChanged += TransportQueueControllerOnOnQueueIndexChanged;
+            
+            _transportQueue.Enqueue(_transportQueueController);
         }
         
         public override void OnExit()

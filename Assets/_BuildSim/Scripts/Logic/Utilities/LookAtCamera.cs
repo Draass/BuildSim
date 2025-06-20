@@ -1,7 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace _BuildSim.Scripts.Logic
+namespace _BuildSim.Scripts.Logic.Utilities
 {
     public class LookAtCamera : MonoBehaviour
     {

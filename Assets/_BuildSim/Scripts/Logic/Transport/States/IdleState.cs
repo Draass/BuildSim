@@ -29,7 +29,7 @@ namespace _BuildSim.Scripts.Logic.Transport.States
             
             // если движение возможно - ехать и вызвать смену состояния
             
-            _stateMachineTrigger.Trigger(TransportStateMachineConstants.TargetFound);
+            _stateMachineTrigger.Trigger(TransportStateMachineConstants.EnteredQueue);
         }
     }
 }

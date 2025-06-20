@@ -1,9 +1,10 @@
 ﻿using _BuildSim.Scripts.Logic.Transport;
+using _BuildSim.Scripts.Logic.UnloadSpot;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
-namespace _BuildSim.Scripts.Logic
+namespace _BuildSim.Scripts.Logic.Installers
 {
     public class GameInstaller : MonoInstaller
     {
@@ -18,7 +19,7 @@ namespace _BuildSim.Scripts.Logic
         
         public override void InstallBindings()
         {
-            Container.BindInterfacesTo<UnloadSpot>().AsSingle();
+            Container.BindInterfacesTo<UnloadSpot.UnloadSpot>().AsSingle();
             
             Container.BindInterfacesTo<UnloadSpotProvider>().FromInstance(_unloadSpotProvider).AsSingle();
             Container.BindInterfacesTo<EndOfMapPositionProvider>().FromInstance(_endOfMapPositionProvider).AsSingle();
@@ -28,6 +29,8 @@ namespace _BuildSim.Scripts.Logic
 
             Container.BindInterfacesTo<TransportSpawner>().AsSingle();
             Container.BindInterfacesTo<TransportFactory>().AsSingle();
+            
+            Container.BindInterfacesTo<TransportQueueService>().AsSingle();
         }
     }
 }

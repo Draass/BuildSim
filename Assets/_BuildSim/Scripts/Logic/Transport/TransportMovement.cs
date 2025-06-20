@@ -1,10 +1,12 @@
 ﻿using System;
 using _BuildSim.Scripts.Logic.Interfaces;
+using _BuildSim.Scripts.Logic.Interfaces.Pathfinding;
+using _BuildSim.Scripts.Logic.Interfaces.Transport;
 using Pathfinding;
 using UnityEngine;
 using Zenject;
 
-namespace _BuildSim.Scripts.Logic
+namespace _BuildSim.Scripts.Logic.Transport
 {
     public class TransportMovement : IMovement, ITickable
     {
@@ -19,6 +21,8 @@ namespace _BuildSim.Scripts.Logic
 
         public event Action OnDestinationReached;
 
+        public Vector3 Position => _astarAI.position;
+        
         public bool CanMove 
         { 
             get => _astarAI.canMove; 

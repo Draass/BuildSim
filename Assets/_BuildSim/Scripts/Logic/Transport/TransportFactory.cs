@@ -2,13 +2,12 @@
 using _BuildSim.Scripts.Data;
 using _BuildSim.Scripts.Logic.Interfaces.Common;
 using _BuildSim.Scripts.Logic.Interfaces.Transport;
-using _BuildSim.Scripts.Logic.Transport;
 using Cysharp.Threading.Tasks;
 using DraasGames.Core.Runtime.Infrastructure.Loaders.Abstract;
 using UnityEngine;
 using Zenject;
 
-namespace _BuildSim.Scripts.Logic
+namespace _BuildSim.Scripts.Logic.Transport
 {
     public class TransportFactory : ITransportFactory, IAsyncLazyInitialize
     {
@@ -16,7 +15,7 @@ namespace _BuildSim.Scripts.Logic
         private readonly IAssetLoader _assetLoader;
         private readonly IScopeLifetimeProvider _scopeLifetimeProvider;
         
-        private Dictionary<string, GameObject> _transportsPrefabs = new();
+        private readonly Dictionary<string, GameObject> _transportsPrefabs = new();
 
         public TransportFactory(
             IInstantiator instantiator,

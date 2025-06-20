@@ -1,4 +1,4 @@
-﻿namespace _BuildSim.Scripts.Logic.Interfaces
+﻿namespace _BuildSim.Scripts.Logic.Interfaces.Transport
 {
     public interface ITransportSpawner
     {

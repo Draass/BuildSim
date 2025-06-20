@@ -1,9 +1,9 @@
-﻿using _BuildSim.Scripts.Logic.Interfaces.C;
+﻿using _BuildSim.Scripts.Logic.Interfaces.Common;
 using Cysharp.Threading.Tasks;
 using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
 
-namespace _BuildSim.Scripts.Logic
+namespace _BuildSim.Scripts.Logic.Common
 {
     public class SceneLoadService : ISceneLoadService
     {

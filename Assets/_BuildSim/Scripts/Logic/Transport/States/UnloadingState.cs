@@ -3,6 +3,8 @@ using _BuildSim.Scripts.Data;
 using _BuildSim.Scripts.Data.States;
 using _BuildSim.Scripts.Logic.Interfaces;
 using _BuildSim.Scripts.Logic.Interfaces.Common.StateMachine;
+using _BuildSim.Scripts.Logic.Interfaces.Transport;
+using _BuildSim.Scripts.Logic.Interfaces.UnloadSpot;
 using Cysharp.Threading.Tasks;
 using UnityHFSM;
 
@@ -11,6 +13,7 @@ namespace _BuildSim.Scripts.Logic.Transport.States
     public class UnloadingState : State<TransportState>
     {
         private readonly IUnloadSpot _unloadSpot;
+        private readonly ITransportQueueService _queueService;
         
         private readonly IResourceContainer _resourceContainer;
         private readonly IStateMachineTrigger<TransportState> _stateMachineTrigger;
@@ -20,11 +23,13 @@ namespace _BuildSim.Scripts.Logic.Transport.States
         public UnloadingState(
             IResourceContainer resourceContainer,
             IStateMachineTrigger<TransportState> stateMachineTrigger,
-            IUnloadSpot unloadSpot)
+            IUnloadSpot unloadSpot,
+            ITransportQueueService transportQueueService)
         {
             _resourceContainer = resourceContainer;
             _stateMachineTrigger = stateMachineTrigger;
             _unloadSpot = unloadSpot;
+            _queueService = transportQueueService;
         }
 
         public override void OnEnter()
@@ -42,8 +47,7 @@ namespace _BuildSim.Scripts.Logic.Transport.States
             
             _resourceContainer.AddResource(Constants.Brick, 1);
 
-            _unloadSpot.OnTransportUnloaded();
-            //_unloadSpot.Occupy(false);
+            _queueService.NotifyUnloaded();
             
             _stateMachineTrigger.Trigger(TransportStateMachineConstants.UnloadedTrigger);
         }
