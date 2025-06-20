@@ -1,10 +1,12 @@
 ﻿using System;
 using _BuildSim.Scripts.Logic.Interfaces;
+using _BuildSim.Scripts.Logic.Interfaces.Pathfinding;
+using _BuildSim.Scripts.Logic.Interfaces.Transport;
 using Pathfinding;
 using UnityEngine;
 using Zenject;
 
-namespace _BuildSim.Scripts.Logic
+namespace _BuildSim.Scripts.Logic.Transport
 {
     public class TransportMovement : IMovement, ITickable
     {

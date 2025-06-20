@@ -5,10 +5,9 @@ using _BuildSim.Scripts.UI;
 using Cysharp.Threading.Tasks;
 using DraasGames.Core.Runtime.Infrastructure.Loaders.Abstract;
 using DraasGames.Core.Runtime.Infrastructure.Loaders.Concrete;
-using UnityEngine;
 using Zenject;
 
-namespace _BuildSim.Scripts.Logic
+namespace _BuildSim.Scripts.Logic.Common
 {
     public class LoadingScreenController : ILoadingScreenController, IAsyncLazyInitialize
     {

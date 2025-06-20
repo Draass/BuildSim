@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using _BuildSim.Scripts.Logic.Interfaces;
+using _BuildSim.Scripts.Logic.Interfaces.Transport;
+using _BuildSim.Scripts.Logic.Interfaces.UnloadSpot;
 using Pathfinding;
 using UnityEngine;
 
-namespace _BuildSim.Scripts.Logic.Transport.States
+namespace _BuildSim.Scripts.Logic.Transport
 {
     public class TransportQueueController : ITransportQueueController
     {

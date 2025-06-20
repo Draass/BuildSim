@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using _BuildSim.Scripts.Logic.Interfaces.UnloadSpot;
+using UnityEngine;
 
-namespace _BuildSim.Scripts.Logic.Interfaces
+namespace _BuildSim.Scripts.Logic.Interfaces.Transport
 {
     public interface ITransportQueueService
     {

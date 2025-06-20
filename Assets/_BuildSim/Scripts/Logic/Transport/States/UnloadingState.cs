@@ -3,6 +3,8 @@ using _BuildSim.Scripts.Data;
 using _BuildSim.Scripts.Data.States;
 using _BuildSim.Scripts.Logic.Interfaces;
 using _BuildSim.Scripts.Logic.Interfaces.Common.StateMachine;
+using _BuildSim.Scripts.Logic.Interfaces.Transport;
+using _BuildSim.Scripts.Logic.Interfaces.UnloadSpot;
 using Cysharp.Threading.Tasks;
 using UnityHFSM;
 
