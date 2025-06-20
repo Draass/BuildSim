@@ -10,8 +10,6 @@ namespace _BuildSim.Scripts.Logic.Transport.States
 {
     public class UnloadingState : State<TransportState>
     {
-        // TODO убрать везде UnloadSpot, работа только через очередь
-        
         private readonly IUnloadSpot _unloadSpot;
         private readonly ITransportQueueService _queueService;
         
@@ -48,7 +46,6 @@ namespace _BuildSim.Scripts.Logic.Transport.States
             _resourceContainer.AddResource(Constants.Brick, 1);
 
             _queueService.NotifyUnloaded();
-            //_unloadSpot.Occupy(false);
             
             _stateMachineTrigger.Trigger(TransportStateMachineConstants.UnloadedTrigger);
         }

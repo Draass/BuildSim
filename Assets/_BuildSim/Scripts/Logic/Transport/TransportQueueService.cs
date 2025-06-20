@@ -1,17 +1,18 @@
 ﻿using System.Collections.Generic;
 using _BuildSim.Scripts.Logic.Interfaces;
+using Pathfinding;
 using UnityEngine;
 
 namespace _BuildSim.Scripts.Logic.Transport
 {
     public class TransportQueueService : ITransportQueueService
     {
-        private readonly IUnloadSpot _spot;
-        private readonly List<Transform> _slotPoints;
-        private readonly Vector3 _fallbackDirection;
-        private readonly float _slotLength;
-        private readonly Queue<ITransportQueueController> _queue = new();
+        private const float SlotLength = 3f;
         
+        private readonly IUnloadSpot _spot;
+        
+        private readonly Queue<ITransportQueueController> _queue = new();
+
         public TransportQueueService(
             IUnloadSpot spot)
         {
@@ -19,45 +20,59 @@ namespace _BuildSim.Scripts.Logic.Transport
         }
 
         public IUnloadSpot Spot => _spot;
-        
+
         public int Enqueue(ITransportQueueController transport)
         {
             _queue.Enqueue(transport);
             int index = _queue.Count - 1;
-            
+
             transport.SetQueueIndex(index);
 
             if (!_spot.IsOccupied && index == 0)
+            {
                 transport.StartUnloading();
+            }
 
             return index;
         }
 
         public void NotifyUnloaded()
         {
-            if (_queue.Count == 0) return;
+            if (_queue.Count == 0)
+            {
+                return;
+            }
 
             _queue.Dequeue();
             _spot.Occupy(false);
 
-            int index = 0;
+            var index = 0;
+
             foreach (var t in _queue)
             {
                 t.SetQueueIndex(index);
+
                 if (index == 0)
+                {
                     t.StartUnloading();
+                }
+
                 index++;
             }
         }
 
         public Vector3 GetSlotPoint(int queueIndex)
         {
-            // TODO there was a method in Astar Pro
-            
             var origin = _spot.Position;
+
+            // Empyric number for exact case. This algorithm is not working, should find another way to build queues
+            var dir = new Vector3(1, 0, 1);
+
+            Vector3 roughTarget = origin + dir * SlotLength * (queueIndex + 1);
+
+            var nn = AstarPath.active.GetNearest(roughTarget, NNConstraint.Default);
             
-            var dir =  Vector3.back;
-            return origin + dir * (_slotLength * (queueIndex + 1));
+            return nn.position;
         }
     }
 }

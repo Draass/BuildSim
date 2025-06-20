@@ -7,6 +7,8 @@ namespace _BuildSim.Scripts.Logic.Interfaces
     {
         event Action OnDestinationReached;
         
+        Vector3 Position { get; }
+        
         bool CanMove { get; set; }
         
         void MoveTo(Vector3 position);

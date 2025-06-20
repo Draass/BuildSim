@@ -41,8 +41,9 @@ namespace _BuildSim.Scripts.Logic.Transport
             AddTriggerTransition(TransportStateMachineConstants.DestinationReached,
                 new Transition<TransportState>(TransportState.MovingToUnloadSpot, TransportState.Unloading));
             
-            AddTriggerTransition(TransportStateMachineConstants.EnteredQueue,
-                new Transition<TransportState>(TransportState.MovingToUnloadSpot, TransportState.WaitingInQueue));
+            // TODO check if correct
+            AddTriggerTransitionFromAny(TransportStateMachineConstants.EnteredQueue,
+                new Transition<TransportState>(TransportState.Idle, TransportState.WaitingInQueue));
 
             AddTriggerTransition(TransportStateMachineConstants.StartUnloading,
                 new Transition<TransportState>(TransportState.WaitingInQueue, TransportState.Unloading));

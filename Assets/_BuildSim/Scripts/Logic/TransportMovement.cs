@@ -19,6 +19,8 @@ namespace _BuildSim.Scripts.Logic
 
         public event Action OnDestinationReached;
 
+        public Vector3 Position => _astarAI.position;
+        
         public bool CanMove 
         { 
             get => _astarAI.canMove; 

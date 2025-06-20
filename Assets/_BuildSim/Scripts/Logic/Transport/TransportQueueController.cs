@@ -57,6 +57,8 @@ namespace _BuildSim.Scripts.Logic.Transport.States
             _movement.CanMove = true;
             _movement.MoveTo(destination);
 
+            Debug.DrawLine(_movement.Position, destination, Color.cyan, 2f);
+            
             // _stateMachine.Trigger(index == 0
             //     ? TransportSM.ContinueMoveTrigger
             //     : TransportSM.EnteredQueueTrigger);
