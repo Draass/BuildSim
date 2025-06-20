@@ -47,8 +47,6 @@ namespace _BuildSim.Scripts.Logic.Transport
                 return;
             }
                 
-            Debug.Log("Reached destination");
-            
             OnDestinationReached?.Invoke();
             
             _reachedDestinationInvoked = true;
