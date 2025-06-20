@@ -17,9 +17,6 @@ namespace _BuildSim.Scripts.UI
         [SerializeField] 
         private TMP_Text _stateText;
         
-        // TODO get smth for queue logic
-        
-        // get state
         private TransportStateMachine _stateMachine;
         private ITransportQueueController _transportQueueController;
 
