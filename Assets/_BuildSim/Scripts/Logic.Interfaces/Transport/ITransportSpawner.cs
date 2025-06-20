@@ -4,5 +4,7 @@
     {
         // todo rename to factory
         void Spawn(string id);
+        
+        void Despawn(int instanceId);
     }
 }

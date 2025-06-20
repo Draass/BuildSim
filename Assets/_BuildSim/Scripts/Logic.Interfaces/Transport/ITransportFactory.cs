@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace _BuildSim.Scripts.Logic.Interfaces.Transport
 {
-    public interface ITransportFactory : IFactory<GameObject>
+    public interface ITransportFactory : IFactory<MonoEntity>
     {
     }
 }

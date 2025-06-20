@@ -15,7 +15,7 @@ namespace _BuildSim.Scripts.Logic.Transport
         private readonly IAssetLoader _assetLoader;
         private readonly IScopeLifetimeProvider _scopeLifetimeProvider;
         
-        private readonly Dictionary<string, GameObject> _transportsPrefabs = new();
+        private readonly Dictionary<string, MonoEntity> _transportsPrefabs = new();
 
         public TransportFactory(
             IInstantiator instantiator,
@@ -31,7 +31,7 @@ namespace _BuildSim.Scripts.Logic.Transport
         
         public AsyncLazy LazyInitialize { get; }
         
-        public GameObject Create(string id)
+        public MonoEntity Create(string id)
         {
             var transportPrefab = _transportsPrefabs.GetValueOrDefault(id);
 
@@ -41,14 +41,14 @@ namespace _BuildSim.Scripts.Logic.Transport
                 return null;
             }
 
-            var go = _instantiator.InstantiatePrefab(transportPrefab);
+            var go = _instantiator.InstantiatePrefabForComponent<MonoEntity>(transportPrefab);
             
             return go;
         }
 
         private async UniTask InitializeAsync()
         {
-            var transport = await _assetLoader.LoadAsync<GameObject>
+            var transport = await _assetLoader.LoadWithComponentAsync<MonoEntity>
                 (Constants.Transport.DefaultTransport, _scopeLifetimeProvider.ScopeLifetime);
             
             _transportsPrefabs.Add(Constants.Transport.DefaultTransport, transport);

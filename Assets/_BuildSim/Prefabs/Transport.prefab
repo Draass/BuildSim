@@ -371,6 +371,7 @@ GameObject:
   - component: {fileID: 7849582029974389953}
   - component: {fileID: 1776300840012264437}
   - component: {fileID: 8204356915051476499}
+  - component: {fileID: 7931458893273405763}
   m_Layer: 0
   m_Name: Transport
   m_TagString: Untagged
@@ -565,10 +566,10 @@ MonoBehaviour:
   rotationSpeed: 360
   slowdownDistance: 0.6
   pickNextWaypointDist: 2
-  endReachedDistance: 0.2
+  endReachedDistance: 5
   alwaysDrawGizmos: 1
   slowWhenNotFacingTarget: 1
-  whenCloseToDestination: 0
+  whenCloseToDestination: 1
   constrainInsideGraph: 0
 --- !u!114 &1776300840012264437
 MonoBehaviour:
@@ -582,6 +583,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f2390c04356456c8f5a7cbbb6f047e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _entity: {fileID: 7931458893273405763}
   _pathfinderProvider: {fileID: 8566084501524011273}
 --- !u!114 &8204356915051476499
 MonoBehaviour:
@@ -733,6 +735,18 @@ MonoBehaviour:
   m_SkinMeshRef: {fileID: 0}
   m_OriginalMeshObject: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   m_Mode: 0
+--- !u!114 &7931458893273405763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2383724058839731885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26ddd8b1ed8c4a728a87337fb065849c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4663266101661735794
 GameObject:
   m_ObjectHideFlags: 0
