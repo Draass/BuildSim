@@ -10,7 +10,10 @@ namespace _BuildSim.Scripts.Logic.Transport.States
 {
     public class UnloadingState : State<TransportState>
     {
+        // TODO убрать везде UnloadSpot, работа только через очередь
+        
         private readonly IUnloadSpot _unloadSpot;
+        private readonly ITransportQueueService _queueService;
         
         private readonly IResourceContainer _resourceContainer;
         private readonly IStateMachineTrigger<TransportState> _stateMachineTrigger;
@@ -20,11 +23,13 @@ namespace _BuildSim.Scripts.Logic.Transport.States
         public UnloadingState(
             IResourceContainer resourceContainer,
             IStateMachineTrigger<TransportState> stateMachineTrigger,
-            IUnloadSpot unloadSpot)
+            IUnloadSpot unloadSpot,
+            ITransportQueueService transportQueueService)
         {
             _resourceContainer = resourceContainer;
             _stateMachineTrigger = stateMachineTrigger;
             _unloadSpot = unloadSpot;
+            _queueService = transportQueueService;
         }
 
         public override void OnEnter()
@@ -42,7 +47,7 @@ namespace _BuildSim.Scripts.Logic.Transport.States
             
             _resourceContainer.AddResource(Constants.Brick, 1);
 
-            _unloadSpot.OnTransportUnloaded();
+            _queueService.NotifyUnloaded();
             //_unloadSpot.Occupy(false);
             
             _stateMachineTrigger.Trigger(TransportStateMachineConstants.UnloadedTrigger);

@@ -7,11 +7,13 @@ namespace _BuildSim.Scripts.Logic
 {
     public class UnloadSpot : IUnloadSpot
     {
-        private readonly Queue<ITransportQueueController> _queue = new();
+        //private readonly Queue<ITransportQueueController> _queue = new();
         
-        private ITransportQueueController _current;
+        //private ITransportQueueController _current;
 
         public event Action<bool> OnOccupied;
+
+        public Vector3 Position { get; }
         
         public string ResourceId { get; }
         
@@ -28,45 +30,45 @@ namespace _BuildSim.Scripts.Logic
             OnOccupied?.Invoke(IsOccupied);
         }
 
-        public void EnqueueTransport(ITransportQueueController transport)
-        {
-            Debug.Log($"Enqueding transport");
-            
-            _queue.Enqueue(transport);
-            UpdateQueueIndices();
-            TryProcessNext();
-        }
+        // public void EnqueueTransport(ITransportQueueController transport)
+        // {
+        //     Debug.Log($"Enqueding transport");
+        //     
+        //     _queue.Enqueue(transport);
+        //     UpdateQueueIndices();
+        //     TryProcessNext();
+        // }
 
-        private void TryProcessNext()
-        {
-            if (!IsOccupied && _queue.Count > 0)
-            {
-                _current = _queue.Dequeue();
-                IsOccupied = true;
-                
-                _current.StartUnloading();
-                UpdateQueueIndices();
-            }
-        }
-
-        public void OnTransportUnloaded()
-        {
-            Debug.Log("Transport unloaded");
-            
-            IsOccupied = false;
-            _current = null;
-            TryProcessNext();
-        }
-
-        private void UpdateQueueIndices()
-        {
-            int i = 0;
-            
-            foreach (var t in _queue)
-            {
-                t.SetQueueIndex(i);
-                i++;
-            }
-        }
+        // private void TryProcessNext()
+        // {
+        //     if (!IsOccupied && _queue.Count > 0)
+        //     {
+        //         _current = _queue.Dequeue();
+        //         IsOccupied = true;
+        //         
+        //         _current.StartUnloading();
+        //         UpdateQueueIndices();
+        //     }
+        // }
+        //
+        // public void OnTransportUnloaded()
+        // {
+        //     Debug.Log("Transport unloaded");
+        //     
+        //     IsOccupied = false;
+        //     _current = null;
+        //     TryProcessNext();
+        // }
+        //
+        // private void UpdateQueueIndices()
+        // {
+        //     int i = 0;
+        //     
+        //     foreach (var t in _queue)
+        //     {
+        //         t.SetQueueIndex(i);
+        //         i++;
+        //     }
+        // }
     }
 }

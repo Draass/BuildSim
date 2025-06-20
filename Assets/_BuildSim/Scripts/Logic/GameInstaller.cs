@@ -1,4 +1,5 @@
-﻿using _BuildSim.Scripts.Logic.Transport;
+﻿using _BuildSim.Scripts.Logic.Interfaces;
+using _BuildSim.Scripts.Logic.Transport;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
@@ -28,6 +29,8 @@ namespace _BuildSim.Scripts.Logic
 
             Container.BindInterfacesTo<TransportSpawner>().AsSingle();
             Container.BindInterfacesTo<TransportFactory>().AsSingle();
+            
+            Container.BindInterfacesTo<TransportQueueService>().AsSingle();
         }
     }
 }

@@ -10,26 +10,28 @@ namespace _BuildSim.Scripts.Logic.Transport.States
     {
         private readonly IUnloadSpot _unloadSpot;
         private readonly IStateMachineTrigger<TransportState> _trigger;
-        
         private readonly ITransportQueueController _transportQueueController;
+        private readonly ITransportQueueService _transportQueue;
         
         public WaitingInQueueState(
             IUnloadSpot unloadSpot,
             IStateMachineTrigger<TransportState> trigger,
-            ITransportQueueController transportQueueController)
+            ITransportQueueController transportQueueController,
+            ITransportQueueService transportQueueService)
         {
             _unloadSpot = unloadSpot;
             _trigger = trigger;
             _transportQueueController = transportQueueController;
+            _transportQueue = transportQueueService;
         }
         
         public override void OnEnter()
         {
             base.OnEnter();
-            
-            _unloadSpot.EnqueueTransport(_transportQueueController);
-            
+         
             _transportQueueController.OnQueueIndexChanged += TransportQueueControllerOnOnQueueIndexChanged;
+            
+            _transportQueue.Enqueue(_transportQueueController);
         }
         
         public override void OnExit()
