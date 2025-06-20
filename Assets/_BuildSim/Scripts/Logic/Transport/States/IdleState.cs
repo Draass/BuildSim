@@ -17,17 +17,6 @@ namespace _BuildSim.Scripts.Logic.Transport.States
         public override void OnLogic()
         {
             base.OnLogic();
-
-            // TODO проверить возможно ли движение и есть ли цель
-
-            var hasTarget = true;
-            
-            if (!hasTarget)
-            {
-                return;
-            }
-            
-            // если движение возможно - ехать и вызвать смену состояния
             
             _stateMachineTrigger.Trigger(TransportStateMachineConstants.EnteredQueue);
         }

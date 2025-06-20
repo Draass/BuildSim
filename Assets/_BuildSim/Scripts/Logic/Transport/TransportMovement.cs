@@ -31,14 +31,13 @@ namespace _BuildSim.Scripts.Logic.Transport
         
         public void MoveTo(Vector3 position)
         {
-            _astarAI.destination = position;
-            
             _reachedDestinationInvoked = false;
+            _astarAI.destination = position;
         }
 
         public void Tick()
         {
-            if (!_astarAI.reachedEndOfPath)
+            if (!_astarAI.reachedDestination)
             {
                 return;
             }

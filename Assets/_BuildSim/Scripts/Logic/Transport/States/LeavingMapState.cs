@@ -1,8 +1,8 @@
-﻿using _BuildSim.Scripts.Data.States;
+﻿using System;
+using _BuildSim.Scripts.Data.States;
 using _BuildSim.Scripts.Logic.Interfaces;
-using _BuildSim.Scripts.Logic.Interfaces.Common.StateMachine;
 using _BuildSim.Scripts.Logic.Interfaces.Transport;
-using UnityEngine;
+using Cysharp.Threading.Tasks;
 using UnityHFSM;
 
 namespace _BuildSim.Scripts.Logic.Transport.States
@@ -11,39 +11,46 @@ namespace _BuildSim.Scripts.Logic.Transport.States
     {
         private readonly IMovement _movement;
         private readonly IEndOfMapPositionProvider _endOfMapPositionProvider;
-        private readonly IStateMachineTrigger<TransportState> _stateMachineTrigger;
+        private readonly ITransportSpawner _transportSpawner;
+        private readonly IEntity _entity;
         
         public LeavingMapState(
             IMovement movement,
             IEndOfMapPositionProvider endOfMapPositionProvider,
-            IStateMachineTrigger<TransportState> stateMachineTrigger)
+            ITransportSpawner transportSpawner,
+            IEntity entity)
         {
             _movement = movement;
             _endOfMapPositionProvider = endOfMapPositionProvider;
-            _stateMachineTrigger = stateMachineTrigger;
+            _transportSpawner = transportSpawner;
+            _entity = entity;
         }
         
         public override void OnEnter()
         {
             base.OnEnter();
 
+            // TODO bug when first transport arrives to unload point without queue it is invoked immediately 
+            //      because reached desti
+            _movement.OnDestinationReached += MovementOnOnDestinationReached;
+            
             _movement.CanMove = true;
             
             _movement.MoveTo(_endOfMapPositionProvider.Position);
-            
-            _movement.OnDestinationReached += MovementOnOnDestinationReached;
-            // TODO move to end of map
-            
-            Debug.Log("Leaving map");
         }
 
         private void MovementOnOnDestinationReached()
         {
             _movement.OnDestinationReached -= MovementOnOnDestinationReached;
             
-            Debug.Log("Leaved map, should dispose this transport");
+            DespawnTransportDelayed().Forget();
+        }
+
+        private async UniTaskVoid DespawnTransportDelayed()
+        {
+            await UniTask.Delay(TimeSpan.FromSeconds(1f));
             
-            // TODO free this transport
+            _transportSpawner.Despawn(_entity.InstanceId);
         }
     }
 }
