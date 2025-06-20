@@ -1,4 +1,5 @@
-﻿using Zenject;
+﻿using _BuildSim.Scripts.Logic.Bootstrappers;
+using Zenject;
 
 namespace _BuildSim.Scripts.Logic
 {
@@ -7,6 +8,7 @@ namespace _BuildSim.Scripts.Logic
         public override void InstallBindings()
         {
             Container.BindInterfacesTo<LoadingScreenController>().AsSingle();
+            Container.BindInterfacesTo<SceneLoadService>().AsSingle();
         }
     }
 }

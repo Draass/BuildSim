@@ -13,5 +13,10 @@
         {
             public const string LoadingView = "LoadingView";
         }
+
+        public static class Scenes
+        {
+            public const string GameScene = "Game";
+        }
     }
 }

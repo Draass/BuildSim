@@ -1,4 +1,5 @@
-﻿using Sirenix.OdinInspector;
+﻿using _BuildSim.Scripts.Logic.Transport;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
@@ -20,6 +21,8 @@ namespace _BuildSim.Scripts.Logic
             Container.BindInterfacesTo<EndOfMapPositionProvider>().FromInstance(_endOfMapPositionProvider).AsSingle();
             
             Container.BindInterfacesTo<ResourceContainer>().AsSingle();
+
+            Container.BindInterfacesTo<TransportSpawner>().AsSingle();
         }
     }
 }

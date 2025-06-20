@@ -1,31 +1,29 @@
 ﻿using System.Collections.Generic;
+using _BuildSim.Scripts.Data;
 using _BuildSim.Scripts.Logic.Interfaces;
+using _BuildSim.Scripts.Logic.Interfaces.C;
 using _BuildSim.Scripts.Logic.Interfaces.Common;
-using _BuildSim.Scripts.Logic.Presenters;
 using Cysharp.Threading.Tasks;
-using DraasGames.Core.Runtime.UI.PresenterNavigationService.Abstract;
 using UnityEngine;
 using Zenject;
 
 namespace _BuildSim.Scripts.Logic.Bootstrappers
 {
-    public class GameBootstrapper : MonoBehaviour
+    public class InitBootstrapper : MonoBehaviour
     {
         private IEnumerable<IAsyncLazyInitialize> _initializables;
-        private IPresenterNavigationService _presenterNavigation;
         private ILoadingScreenController _loadingScreenController;
-        
-        private bool _hasInitialized;
+        private ISceneLoadService _sceneLoadService;
 
         [Inject]
         private void Construct(
             IEnumerable<IAsyncLazyInitialize> initializables,
-            IPresenterNavigationService presenterNavigation,
-            ILoadingScreenController loadingScreenController)
+            ILoadingScreenController loadingScreenController,
+            ISceneLoadService sceneLoadService)
         {
             _initializables = initializables;
-            _presenterNavigation = presenterNavigation;
             _loadingScreenController = loadingScreenController;
+            _sceneLoadService = sceneLoadService;
         }
         
         private void Awake()
@@ -33,28 +31,16 @@ namespace _BuildSim.Scripts.Logic.Bootstrappers
             InitializeAsync().Forget();
         }
 
-        private void Start()
-        {
-            StartGameAsync().Forget();
-        }
-
-        private async UniTaskVoid StartGameAsync()
-        {
-            await UniTask.WaitUntil(() => _hasInitialized);
-            
-            await _presenterNavigation.NavigateAsync<TransportControlPresenter>();
-            
-            _loadingScreenController.Hide();
-        }
-
         private async UniTask InitializeAsync()
         {
+            await _loadingScreenController.ShowAsync();
+            
             foreach (var initializable in _initializables)
             {
                 await initializable.LazyInitialize;
             }
             
-            _hasInitialized = true;
+            _sceneLoadService.LoadScene(Constants.Scenes.GameScene).Forget();
         }
     }
 }

@@ -12,17 +12,19 @@ namespace _BuildSim.Scripts.Logic
 {
     public class LoadingScreenController : ILoadingScreenController, IAsyncLazyInitialize
     {
-        private IAssetLoader _assetLoader;
-        private IInstantiator _instantiator;
+        private readonly IAssetLoader _assetLoader;
+        private readonly IInstantiator _instantiator;
 
         private LoadingView _loadingViewPrefab;
         
         private LoadingView _loadingView;
         
         public LoadingScreenController(
-            IAssetLoader assetLoader)
+            IAssetLoader assetLoader,
+            IInstantiator instantiator)
         {
             _assetLoader = assetLoader;
+            _instantiator = instantiator;
 
             LazyInitialize = new AsyncLazy(InitializeAsync);
         }
@@ -31,12 +33,19 @@ namespace _BuildSim.Scripts.Logic
         
         public async UniTask ShowAsync()
         {
-            _loadingView = _instantiator.InstantiatePrefabForComponent<LoadingView>(_loadingViewPrefab);
+            await LazyInitialize;
+
+            if (!_loadingView)
+            {
+                _loadingView = _instantiator.InstantiatePrefabForComponent<LoadingView>(_loadingViewPrefab);
+            }
+            
+            _loadingView.Show();
         }
 
         public void Hide()
         {
-            GameObject.Destroy(_loadingView.gameObject);
+            _loadingView?.Hide();
         }
 
         private async UniTask InitializeAsync()
