@@ -1060,6 +1060,37 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &129260275
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 129260276}
+  m_Layer: 0
+  m_Name: TransportSpawnPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &129260276
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 129260275}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 13.6, y: 0, z: 23.29}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &228827565
 GameObject:
   m_ObjectHideFlags: 0
@@ -2703,6 +2734,7 @@ GameObject:
   - component: {fileID: 716972872}
   - component: {fileID: 716972874}
   - component: {fileID: 716972875}
+  - component: {fileID: 716972876}
   m_Layer: 0
   m_Name: SceneContext
   m_TagString: Untagged
@@ -2771,6 +2803,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _unloadSpotProvider: {fileID: 512541618}
   _endOfMapPositionProvider: {fileID: 716972875}
+  _transportSpawnPositionProvider: {fileID: 716972876}
 --- !u!114 &716972875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2784,6 +2817,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _target: {fileID: 1295144730}
+--- !u!114 &716972876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 716972871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29223a1ea57e4ac697a7bcf39a8c0a47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _transportSpawn: {fileID: 129260276}
 --- !u!1 &782752610
 GameObject:
   m_ObjectHideFlags: 0
@@ -5861,3 +5907,4 @@ SceneRoots:
   - {fileID: 942478614}
   - {fileID: 6235165934299459583}
   - {fileID: 4479089665393220910}
+  - {fileID: 129260276}

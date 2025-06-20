@@ -25,10 +25,10 @@ namespace _BuildSim.Scripts.Logic.Presenters
         {
             var view = await _viewRouter.ShowAsync<TransportControlView>();
 
-            view.OnSpawnTransportClicked.Subscribe(_ => SpawnTransport()).AddTo(view);
+            view.OnSpawnTransportClicked.Subscribe(SpawnTransport).AddTo(view);
         }
 
-        private void SpawnTransport()
+        private void SpawnTransport(Unit _)
         {
             _transportSpawner.Spawn(Constants.Transport.DefaultTransport);
         }

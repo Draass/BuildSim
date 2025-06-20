@@ -13,16 +13,21 @@ namespace _BuildSim.Scripts.Logic
         [SerializeField, Required, SceneObjectsOnly]
         private EndOfMapPositionProvider _endOfMapPositionProvider;
         
+        [SerializeField, Required, SceneObjectsOnly]
+        private TransportSpawnPositionProvider _transportSpawnPositionProvider;
+        
         public override void InstallBindings()
         {
             Container.BindInterfacesTo<UnloadSpot>().AsSingle();
             
             Container.BindInterfacesTo<UnloadSpotProvider>().FromInstance(_unloadSpotProvider).AsSingle();
             Container.BindInterfacesTo<EndOfMapPositionProvider>().FromInstance(_endOfMapPositionProvider).AsSingle();
+            Container.BindInterfacesTo<TransportSpawnPositionProvider>().FromInstance(_transportSpawnPositionProvider).AsSingle();
             
             Container.BindInterfacesTo<ResourceContainer>().AsSingle();
 
             Container.BindInterfacesTo<TransportSpawner>().AsSingle();
+            Container.BindInterfacesTo<TransportFactory>().AsSingle();
         }
     }
 }

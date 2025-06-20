@@ -1,40 +1,27 @@
-﻿using _BuildSim.Scripts.Data;
-using _BuildSim.Scripts.Logic.Interfaces;
-using _BuildSim.Scripts.Logic.Interfaces.Common;
-using Cysharp.Threading.Tasks;
-using DraasGames.Core.Runtime.Infrastructure.Loaders.Abstract;
+﻿using _BuildSim.Scripts.Logic.Interfaces;
+using _BuildSim.Scripts.Logic.Interfaces.Transport;
 using UnityEngine;
 
 namespace _BuildSim.Scripts.Logic.Transport
 {
-    public class TransportSpawner : ITransportSpawner, IAsyncLazyInitialize
+    public class TransportSpawner : ITransportSpawner
     {
-        private readonly IAssetLoader _assetLoader;
-        private readonly IScopeLifetimeProvider _scopeLifetimeProvider;
-        
-        private GameObject _prefab;
+        private readonly ITransportFactory _transportFactory;
+        private readonly ITransportSpawnPositionProvider _transportSpawnPositionProvider;
         
         public TransportSpawner(
-            IAssetLoader assetLoader,
-            IScopeLifetimeProvider scopeLifetimeProvider)
+            ITransportFactory transportFactory,
+            ITransportSpawnPositionProvider transportSpawnPositionProvider)
         {
-            _assetLoader = assetLoader;
-            _scopeLifetimeProvider = scopeLifetimeProvider;
-            
-            LazyInitialize = new AsyncLazy(InitializeAsync);
+            _transportFactory = transportFactory;
+            _transportSpawnPositionProvider = transportSpawnPositionProvider;
         }
-        
-        public AsyncLazy LazyInitialize { get; }
         
         public void Spawn(string id)
         {
+            var transport = _transportFactory.Create(id);
             
-        }
-
-        private async UniTask InitializeAsync()
-        {
-            _prefab = await _assetLoader.LoadAsync<GameObject>
-                (Constants.Transport.DefaultTransport, _scopeLifetimeProvider.ScopeLifetime);
+            transport.transform.SetPositionAndRotation(_transportSpawnPositionProvider.Position, Quaternion.identity);
         }
     }
 }
